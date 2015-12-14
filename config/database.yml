@@ -1,0 +1,10 @@
+defaults: &defaults
+  adapter: postgres
+  encoding: unicode
+  pool: 5
+  min_messages: warning
+  host: localhost
+
+development:
+  <<: *defaults
+  database: toastmasters

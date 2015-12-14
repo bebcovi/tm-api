@@ -1,0 +1,72 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    abstract_type (0.0.7)
+    adamantium (0.2.0)
+      ice_nine (~> 0.11.0)
+      memoizable (~> 0.4.0)
+    anima (0.2.0)
+      abstract_type (~> 0.0.7)
+      adamantium (~> 0.1)
+      equalizer (~> 0.0.8)
+    attribs (1.0.0)
+      anima (~> 0.2.0)
+    coderay (1.1.0)
+    concord (0.1.5)
+      adamantium (~> 0.2.0)
+      equalizer (~> 0.0.9)
+    dotenv (2.0.2)
+    equalizer (0.0.11)
+    ice_nine (0.11.1)
+    inflection (1.0.0)
+    memoizable (0.4.2)
+      thread_safe (~> 0.3, >= 0.3.1)
+    method_source (0.8.2)
+    minitest (5.8.3)
+    minitest-hooks (1.4.0)
+    pg (0.18.4)
+    pry (0.10.3)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    puma (2.15.3)
+    rack (1.6.4)
+    rack-accept (0.4.5)
+      rack (>= 0.4)
+    rack-test_app (1.0.0)
+      rack
+    rake (10.4.2)
+    roda (2.8.0)
+      rack
+    sequel (4.29.0)
+    slop (3.6.0)
+    thread_safe (0.3.5)
+    uri_template (0.6.0)
+    yaks (0.11.0)
+      abstract_type (~> 0.0.7)
+      adamantium (~> 0.2.0)
+      anima (~> 0.2.0)
+      attribs (~> 1.0)
+      concord (~> 0.1.4)
+      inflection (~> 1.0)
+      rack-accept (~> 0.4.5)
+      uri_template (~> 0.6.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  dotenv
+  minitest
+  minitest-hooks
+  pg
+  pry
+  puma
+  rack-test_app
+  rake
+  roda
+  sequel
+  yaks
+
+BUNDLED WITH
+   1.10.6
