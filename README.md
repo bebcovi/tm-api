@@ -260,7 +260,7 @@ Content-Type: application/json
     "attributes": {
       "role": "Evaluator",
       "role_data": {}
-    }
+    },
     "relationships": {
       "member": {
         "data": {"type": "members", "id": "25"}
