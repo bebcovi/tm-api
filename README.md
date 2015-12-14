@@ -209,6 +209,9 @@ Content-Type: application/json
 }
 ```
 
+If a guest already exists with given attributes, returns it rather than
+creating a new one.
+
 ### Updating guests
 
 ```http

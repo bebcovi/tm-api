@@ -13,7 +13,7 @@ module Toastmasters
       end
 
       def self.create(attributes)
-        guest = Models::Guest.new(attributes)
+        guest = Models::Guest.find(attributes) || Models::Guest.new(attributes)
         guest.save or raise Toastmasters::Error::ValidationFailed, guest.errors
       end
 

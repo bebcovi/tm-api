@@ -31,8 +31,15 @@ describe Toastmasters::Mediators::Guests do
       refute guest.new?
     end
 
+    it "finds the existing record" do
+      Mediators::Guests.create(first_name: "Edward", last_name: "Daniels", email: "edward.daniels@gmail.com")
+      guest = Mediators::Guests.create(first_name: "Edward", last_name: "Daniels")
+
+      assert_equal "edward.daniels@gmail.com", guest.email
+    end
+
     it "raises validation errors" do
-      assert_raises(Error::ValidationFailed) { Mediators::Guests.create({}) }
+      assert_raises(Error::ValidationFailed) { Mediators::Guests.create(first_name: nil) }
     end
   end
 

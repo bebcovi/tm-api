@@ -14,7 +14,22 @@ module Toastmasters
         attributes[:"#{rel_name}_id"] = value[:data][:id]
       end
 
-      attributes
+      symbolize_keys(attributes)
+    end
+
+    private
+
+    def symbolize_keys(params)
+      case params
+      when Hash
+        hash = {}
+        params.each { |k, v| hash[k.to_sym] = symbolize_keys(v) }
+        hash
+      when Array
+        params.map { |x| symbolize_keys(x) }
+      else
+        params
+      end
     end
   end
 end
