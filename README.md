@@ -80,7 +80,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "type": "meeting",
+    "type": "meetings",
     "attributes": {
       "date": "2015-01-01",
     }
@@ -96,8 +96,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "type": "meeting",
-    "id": 43,
+    "type": "meetings",
+    "id": "43",
     "attributes": {
       "note": "A note about the meeting",
     }
@@ -119,6 +119,7 @@ DELETE /meetings/43 HTTP/1.1
 | `first_name` | string |
 | `last_name`  | string |
 | `email`      | string |
+| `active`     | boolean |
 
 ### Listing members
 
@@ -138,7 +139,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "type": "member",
+    "type": "members",
     "attributes": {
       "first_name": "John",
       "last_name": "Smith",
@@ -156,10 +157,10 @@ Content-Type: application/json
 
 {
   "data": {
-    "type": "member",
-    "id": 43,
+    "type": "members",
+    "id": "43",
     "attributes": {
-      "first_name": "Edward",
+      "active": false,
     }
   }
 }
@@ -198,7 +199,7 @@ Content-Type: application/json
 
 {
   "data": {
-    "type": "guest",
+    "type": "guests",
     "attributes": {
       "first_name": "John",
       "last_name": "Smith",
@@ -216,8 +217,8 @@ Content-Type: application/json
 
 {
   "data": {
-    "type": "guest",
-    "id": 43,
+    "type": "guests",
+    "id": "43",
     "attributes": {
       "first_name": "Edward",
     }
@@ -229,6 +230,75 @@ Content-Type: application/json
 
 ```http
 DELETE /guests/43 HTTP/1.1
+```
+
+## Participations
+
+| Attribute   | Type   |
+| ---------   | ----   |
+| `id`        | string |
+| `role`      | string |
+| `role_data` | json   |
+
+Participations have associations `meeting`, `member` and `guest`.
+
+### Listing participations
+
+```http
+GET /meetings/12/participations HTTP/1.1
+```
+
+### Creating participations
+
+```http
+POST /meetings/12/participations HTTP/1.1
+Content-Type: application/json
+
+{
+  "data": {
+    "type": "participations",
+    "attributes": {
+      "role": "Evaluator",
+      "role_data": {}
+    }
+    "relationships": {
+      "member": {
+        "data": {"type": "members", "id": "25"}
+      }
+    }
+  }
+}
+```
+
+We can create either a "member" or a "guest" participation by putting the
+appropriate name in "relationships".
+
+```json
+{"relationships": {"member": {"data": {"type": "members", "id": "25"}}}}
+{"relationships": {"guest": {"data": {"type": "guests", "id": "42"}}}}
+```
+
+### Updating participations
+
+```http
+PATCH /meetings/12/participations/43 HTTP/1.1
+Content-Type: application/json
+
+{
+  "data": {
+    "type": "participations",
+    "id": "43",
+    "attributes": {
+      "role_data": {"speaker_id": 22},
+    }
+  }
+}
+```
+
+### Deleting participations
+
+```http
+DELETE /meetings/12/participations/43 HTTP/1.1
 ```
 
 [JSON API]: http://jsonapi.org/

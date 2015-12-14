@@ -38,6 +38,7 @@ module Toastmasters
         default_format :json_api_with_errors
         mapper_namespace Toastmasters::Mappers
         map_to_primitive Date, Time, &:iso8601
+        map_to_primitive Sequel::Postgres::JSONBHash, &:to_hash
       end
     end
   end

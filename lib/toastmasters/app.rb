@@ -102,8 +102,22 @@ module Toastmasters
         r.on ":id" do |meeting_id|
           r.on "participations" do
             r.is do
+              r.get do
+                Mediators::Participations.all(meeting_id: meeting_id)
+              end
+
               r.post do
                 Mediators::Participations.create(meeting_id, attributes(:participation))
+              end
+            end
+
+            r.is ":id" do |participation_id|
+              r.patch do
+                Mediators::Participations.update(participation_id, attributes(:participation))
+              end
+
+              r.delete do
+                Mediators::Participations.delete(participation_id)
               end
             end
           end

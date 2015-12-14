@@ -5,8 +5,8 @@ describe Toastmasters::Mediators::Members do
 
   describe ".all" do
     it "orders by last name" do
-      Member.create(first_name: "Andrew", last_name: "Laeddis", email: "andrew.laeddis@gmail.com")
-      Member.create(first_name: "Edward", last_name: "Daniels", email: "edward.daniels@gmail.com")
+      Member.create(first_name: "Andrew", last_name: "Laeddis")
+      Member.create(first_name: "Edward", last_name: "Daniels")
 
       assert_equal ["Daniels", "Laeddis"], Mediators::Members.all.map(&:last_name)
     end
@@ -14,7 +14,7 @@ describe Toastmasters::Mediators::Members do
 
   describe ".find" do
     it "finds the record" do
-      member = Member.create(first_name: "Edward", last_name: "Daniels", email: "edward.daniels@gmail.com")
+      member = Member.create(first_name: "Edward", last_name: "Daniels")
 
       assert_equal member, Mediators::Members.find(member.id)
     end
@@ -26,7 +26,7 @@ describe Toastmasters::Mediators::Members do
 
   describe ".create" do
     it "creates the record" do
-      member = Mediators::Members.create(first_name: "Edward", last_name: "Daniels", email: "edward.daniels@gmail.com")
+      member = Mediators::Members.create(first_name: "Edward", last_name: "Daniels")
 
       refute member.new?
     end
@@ -38,14 +38,14 @@ describe Toastmasters::Mediators::Members do
 
   describe ".update" do
     it "updates the record" do
-      member = Member.create(first_name: "Edward", last_name: "Daniels", email: "edward.daniels@gmail.com")
-      Mediators::Members.update(member.id, first_name: "Andrew", last_name: "Laeddis", email: "andrew.laeddis@gmail.com")
+      member = Member.create(first_name: "Edward", last_name: "Daniels")
+      Mediators::Members.update(member.id, first_name: "Andrew", last_name: "Laeddis")
 
       assert_equal "Andrew", member.reload.first_name
     end
 
     it "raises validation errors" do
-      member = Member.create(first_name: "Edward", last_name: "Daniels", email: "edward.daniels@gmail.com")
+      member = Member.create(first_name: "Edward", last_name: "Daniels")
 
       assert_raises(Error::ValidationFailed) { Mediators::Members.update(member.id, {first_name: nil}) }
     end
@@ -53,7 +53,7 @@ describe Toastmasters::Mediators::Members do
 
   describe ".delete" do
     it "destroys the record" do
-      member = Member.create(first_name: "Edward", last_name: "Daniels", email: "edward.daniels@gmail.com")
+      member = Member.create(first_name: "Edward", last_name: "Daniels")
       member = Mediators::Members.delete(member.id)
 
       refute member.exists?

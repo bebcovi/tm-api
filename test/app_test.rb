@@ -41,7 +41,7 @@ describe Toastmasters::App do
   it "manages members" do
     response = app.post("/members", env: auth, json: {
       data: {
-        type: "member",
+        type: "members",
         attributes: {
           first_name: "John",
           last_name: "Smith",
@@ -57,7 +57,7 @@ describe Toastmasters::App do
     member_id = response.body_json["data"][0]["id"]
     response = app.patch("/members/#{member_id}", env: auth, json: {
       data: {
-        type: "member",
+        type: "members",
         id: member_id,
         attributes: {first_name: "Janko"}
       }
@@ -71,7 +71,7 @@ describe Toastmasters::App do
   it "manages guests" do
     response = app.post("/guests", env: auth, json: {
       data: {
-        type: "guest",
+        type: "guests",
         attributes: {
           first_name: "John",
           last_name: "Smith",
@@ -87,7 +87,7 @@ describe Toastmasters::App do
     guest_id = response.body_json["data"][0]["id"]
     response = app.patch("/guests/#{guest_id}", env: auth, json: {
       data: {
-        type: "guest",
+        type: "guests",
         id: guest_id,
         attributes: {first_name: "Janko"}
       }
@@ -101,7 +101,7 @@ describe Toastmasters::App do
   it "manages meetings" do
     response = app.post("/meetings", env: auth, json: {
       data: {
-        type: "meeting",
+        type: "meetings",
         attributes: {date: Date.today},
       }
     })
@@ -113,7 +113,7 @@ describe Toastmasters::App do
     meeting_id = response.body_json["data"][0]["id"]
     response = app.patch("/meetings/#{meeting_id}", env: auth, json: {
       data: {
-        type: "meeting",
+        type: "meetings",
         id: meeting_id,
         attributes: {date: Date.new(2015)}
       }
@@ -124,5 +124,56 @@ describe Toastmasters::App do
     refute_empty response.body_json["data"]
 
     assert_equal 404, app.get("meetings/#{meeting_id}", env: auth).status
+  end
+
+  it "manages participations" do
+    response = app.post("/meetings", env: auth, json: {
+      data: {
+        type: "meetings",
+        attributes: {date: Date.today},
+      }
+    })
+    meeting_id = response.body_json["data"]["id"]
+
+    response = app.post("/members", env: auth, json: {
+      data: {
+        type: "members",
+        attributes: {first_name: "John", last_name: "Smith", email: "john.smith@gmail.com"},
+      }
+    })
+    member_id = response.body_json["data"]["id"]
+
+    response = app.post("/meetings/#{meeting_id}/participations", env: auth, json: {
+      data: {
+        type: "participations",
+        attributes: {role: "Speaker", role_data: {foo: "bar"}},
+        relationships: {
+          member: {
+            data: {type: "members", id: member_id}
+          }
+        }
+      }
+    })
+
+    refute_empty response.body_json["data"]["relationships"]["member"]
+    participation_id = response.body_json["data"]["id"]
+
+    response = app.get("/meetings/#{meeting_id}/participations", env: auth)
+
+    refute_empty response.body_json["data"]
+
+    response = app.patch("/meetings/#{meeting_id}/participations/#{participation_id}", env: auth, json: {
+      data: {
+        type: "participations",
+        attributes: {role: "Evaluator"},
+      }
+    })
+
+    assert_equal "Evaluator", response.body_json["data"]["attributes"]["role"]
+
+    app.delete("/meetings/#{meeting_id}/participations/#{participation_id}", env: auth)
+    response = app.get("/meetings/#{meeting_id}/participations", env: auth)
+
+    assert_empty response.body_json["data"]
   end
 end
