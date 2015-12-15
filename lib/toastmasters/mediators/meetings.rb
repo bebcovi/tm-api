@@ -17,13 +17,13 @@ module Toastmasters
       end
 
       def self.update(id, attributes)
-        meeting = Models::Meeting[id] or raise Toastmasters::Error::ResourceNotFound
+        meeting = find(id)
         meeting.set(attributes)
         meeting.save or raise Toastmasters::Error::ValidationFailed, meeting.errors
       end
 
       def self.delete(id)
-        Models::Meeting[id].destroy
+        find(id).destroy
       end
     end
   end

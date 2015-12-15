@@ -18,13 +18,13 @@ module Toastmasters
       end
 
       def self.update(id, attributes)
-        guest = Models::Guest[id] or raise Toastmasters::Error::ResourceNotFound
+        guest = find(id)
         guest.set(attributes)
         guest.save or raise Toastmasters::Error::ValidationFailed, guest.errors
       end
 
       def self.delete(id)
-        Models::Guest[id].destroy
+        find(id).destroy
       end
     end
   end
