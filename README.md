@@ -18,6 +18,7 @@ Welcome to Toastmasters API documentation.
 * [**Members**](#members)
 * [**Guests**](#guests)
 * [**Participations**](#participations)
+* [**Speeches**](#speeches)
 
 ## Introduction
 
@@ -243,6 +244,19 @@ DELETE /guests/43 HTTP/1.1
 | `role`      | string |
 | `role_data` | json   |
 
+Valid roles are:
+
+| `role`               | `role_data`            |
+| ---------            | -----------            |
+| `Toastmaster`        |                        |
+| `General Evaluator`  |                        |
+| `Speaker`            | `{"speech_id": "123"}` |
+| `Evaluator`          | `{"speaker_id": "22"}` |
+| `Table TopicsMaster` |                        |
+| `Timer`              |                        |
+| `Grammarian`         |                        |
+| `Ah-Counter`         |                        |
+
 Participations have associations `meeting`, `member` and `guest`.
 
 ### Listing participations
@@ -302,6 +316,48 @@ Content-Type: application/json
 
 ```http
 DELETE /meetings/12/participations/43 HTTP/1.1
+```
+
+## Speeches
+
+| Attribute | Type    |
+| --------- | ----    |
+| `id`      | string  |
+| `title`   | string  |
+| `number`  | integer |
+
+### Listing speeches
+
+```http
+GET /speeches HTTP/1.1
+```
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "data": [{
+    "type": "speeches",
+    "id": "25",
+    "attributes": {
+      "title": "How to Say it",
+      "number": 4
+    },
+    "relationships": {
+      "manual": {
+        "data": {"type": "manuals", "id": "7"}
+      }
+    }
+  }],
+  "included": [{
+    "type": "manuals",
+    "id": "7",
+    "attributes": {
+      "name": "Competent Communicator"
+    }
+  }]
+}
 ```
 
 [JSON API]: http://jsonapi.org/

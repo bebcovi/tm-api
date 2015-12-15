@@ -176,4 +176,11 @@ describe Toastmasters::App do
 
     assert_empty response.body_json["data"]
   end
+
+  it "manages speeches" do
+    speech = Speech.create(title: "Speech", number: 1, manual: Manual.create(name: "Manual"))
+    response = app.get("/speeches", env: auth)
+
+    refute_empty response.body_json["data"]
+  end
 end

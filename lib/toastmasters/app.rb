@@ -4,6 +4,7 @@ require "toastmasters/serializer"
 require "toastmasters/error"
 require "toastmasters/json_api"
 
+Dir["#{__dir__}/models/*.rb"].each { |f| require(f) }
 Dir["#{__dir__}/mediators/*.rb"].each { |f| require(f) }
 
 module Toastmasters
@@ -120,6 +121,14 @@ module Toastmasters
                 Mediators::Participations.delete(participation_id)
               end
             end
+          end
+        end
+      end
+
+      r.on "speeches" do
+        r.is do
+          r.get do
+            Mediators::Speeches.all
           end
         end
       end
