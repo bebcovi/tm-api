@@ -47,6 +47,12 @@ module Toastmasters
             Mediators::Members.delete(member_id)
           end
         end
+
+        r.on ":id" do |member_id|
+          r.get "speeches" do
+            Mediators::Members.speeches(member_id)
+          end
+        end
       end
 
       r.on "guests" do

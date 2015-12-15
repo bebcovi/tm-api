@@ -11,19 +11,15 @@ module Toastmasters
         validates_unique :email, allow_nil: true
       end
 
-#       def speeches
-#         speaker_participations = participations_dataset.where(role: "Speaker").as(:participations)
-#         speaker_id = Sequel.pg_jsonb_op(:role_data).get_text("speech_id").cast(:integer)
+      def speeches
+        speaker_participations = participations_dataset.where(role: "Speaker").as(:participations)
+        speaker_id = Sequel.pg_jsonb_op(:role_data).get_text("speech_id").cast(:integer)
 
-#         Speech.qualify
-#           .join(speaker_participations, speaker_id => :id)
-#           .join(:meetings, :id => :meeting_id)
-#           .order(:meetings__date)
-#       end
-
-#       def last_speech
-#         speeches.last
-#       end
+        Speech.qualify
+          .join(speaker_participations, speaker_id => :id)
+          .join(:meetings, :id => :meeting_id)
+          .order(:meetings__date)
+      end
     end
   end
 end

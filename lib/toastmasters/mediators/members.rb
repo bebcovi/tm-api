@@ -12,6 +12,10 @@ module Toastmasters
         Models::Member[id] or raise Toastmasters::Error::ResourceNotFound
       end
 
+      def self.speeches(id)
+        find(id).speeches
+      end
+
       def self.create(attributes)
         member = Models::Member.new(attributes)
         member.save or raise Toastmasters::Error::ValidationFailed, member.errors

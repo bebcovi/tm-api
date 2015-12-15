@@ -50,11 +50,11 @@ describe Toastmasters::App do
       }
     })
     refute_empty response.body_json["data"]
+    member_id = response.body_json["data"]["id"]
 
     response = app.get("/members", env: auth)
     refute_empty response.body_json["data"]
 
-    member_id = response.body_json["data"][0]["id"]
     response = app.patch("/members/#{member_id}", env: auth, json: {
       data: {
         type: "members",
@@ -63,6 +63,9 @@ describe Toastmasters::App do
       }
     })
     assert_equal "Janko", response.body_json["data"]["attributes"]["first_name"]
+
+    response = app.get("/members/#{member_id}/speeches", env: auth)
+    assert_empty response.body_json["data"]
 
     response = app.delete("/members/#{member_id}", env: auth)
     refute_empty response.body_json["data"]

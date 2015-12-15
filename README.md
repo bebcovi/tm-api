@@ -173,6 +173,14 @@ Content-Type: application/json
 DELETE /members/43 HTTP/1.1
 ```
 
+### Listing speeches
+
+```http
+GET /members/43/speeches HTTP/1.1
+```
+
+This will list all of member's speeches in chronological order.
+
 ## Guests
 
 | Attribute    | Type   |
