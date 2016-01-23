@@ -6,10 +6,12 @@ require "rack/cors"
 
 require "toastmasters"
 
-use Rack::Cors do
-  allow do
-    origins '*'
-    resource '*', :headers => :any, :methods => :any
+unless ENV["RACK_ENV"] == "production"
+  use Rack::Cors do
+    allow do
+      origins '*'
+      resource '*', :headers => :any, :methods => :any
+    end
   end
 end
 
