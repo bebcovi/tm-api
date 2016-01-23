@@ -10,6 +10,7 @@ gem "rake"
 group :development, :test do
   gem "dotenv"
   gem "pry"
+  gem "rack-cors"
 end
 
 group :test do
