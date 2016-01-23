@@ -16,6 +16,10 @@ module Toastmasters
     plugin :error_handler
     plugin :not_found
 
+    unless ENV["RACK_ENV"] == "production"
+      plugin :default_headers, "Access-Control-Allow-Origin"=>"*"
+    end
+
     route do |r|
       r.root do
         {message: "Welcome to Toastmasters API, you can find the documentation on https://github.com/twin/toastmasters-api#readme"}
