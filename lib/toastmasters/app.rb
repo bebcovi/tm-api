@@ -2,6 +2,7 @@ require "roda"
 
 require "toastmasters/serializer"
 require "toastmasters/error"
+require "toastmasters/authorization"
 require "toastmasters/json_api"
 
 Dir["#{__dir__}/models/*.rb"].each { |f| require(f) }
@@ -145,9 +146,8 @@ module Toastmasters
     end
 
     def authenticate!
-      if request.env["HTTP_X_API_KEY"] != opts.fetch(:api_key)
-        raise Toastmasters::Error::Unauthorized
-      end
+      auth = Authorization.basic(request.env["HTTP_AUTHORIZATION"])
+      raise Toastmasters::Error::Unauthorized if auth != opts.fetch_values(:username, :password)
     end
 
     error do |error|

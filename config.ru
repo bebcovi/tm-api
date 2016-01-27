@@ -15,6 +15,9 @@ unless ENV["RACK_ENV"] == "production"
   end
 end
 
-Toastmasters::App.opts[:api_key] = ENV.fetch("API_KEY")
+Toastmasters::App.opts.update(
+  username: ENV.fetch("USERNAME"),
+  password: ENV.fetch("PASSWORD"),
+)
 
 run Toastmasters::App

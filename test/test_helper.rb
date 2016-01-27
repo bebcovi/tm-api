@@ -9,7 +9,12 @@ require "rack/test_app"
 require "./config/sequel"
 require "toastmasters"
 
-Toastmasters::App.opts[:api_key] = "TEST_KEY"
+require "base64"
+
+Toastmasters::App.opts.update(
+  username: "toastmasters",
+  password: "secret",
+)
 
 include Toastmasters
 include Toastmasters::Models
@@ -30,7 +35,7 @@ module TestHelpers
     end
 
     def auth
-      {'HTTP_X_API_KEY' => "TEST_KEY"}
+      {"HTTP_AUTHORIZATION" => "Basic #{Base64.encode64("toastmasters:secret")}"}
     end
   end
 end

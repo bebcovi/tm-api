@@ -23,14 +23,11 @@ Welcome to Toastmasters API documentation.
 ## Introduction
 
 The format used for requests and responses is [JSON API], with the media type
-[application/vnd.api+json].
-
-In every request you should include the API key that was provided to you in
-the `X-Api-Key` header:
+[application/vnd.api+json]. Every request requires HTTP basic authentication:
 
 ```http
 GET /meetings HTTP/1.1
-X-Api-Key: 0234kg9fgkas9l329dfg044
+Authorization: Basic dG9hc3RtYXN0ZXJzOnNlY3JldA==
 ```
 
 Errors that happen in the request will be returned, and sometimes the "meta"
