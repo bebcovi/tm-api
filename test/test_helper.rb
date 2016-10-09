@@ -11,11 +11,6 @@ require "toastmasters"
 
 require "base64"
 
-Toastmasters::App.opts.update(
-  username: "toastmasters",
-  password: "secret",
-)
-
 include Toastmasters
 include Toastmasters::Models
 
@@ -31,11 +26,11 @@ module TestHelpers
     end
 
     def app
-      @app ||= Rack::TestApp.wrap(Toastmasters::App)
+      @app ||= Rack::TestApp.wrap(Rack::Builder.parse_file("config.ru")[0])
     end
 
     def auth
-      {"HTTP_AUTHORIZATION" => "Basic #{Base64.encode64("toastmasters:secret")}"}
+      {"HTTP_AUTHORIZATION" => "Basic #{Base64.encode64(Toastmasters::App.opts.values_at(:username, :password).join(":"))}"}
     end
   end
 end

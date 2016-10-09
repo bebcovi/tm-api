@@ -3,6 +3,11 @@ require "test_helper"
 describe Toastmasters::App do
   include TestHelpers
 
+  it "returns CORS headers" do
+    response = app.options("/", headers: {"Origin" => "http://example.com"})
+    assert_equal "http://example.com", response.headers["Access-Control-Allow-Origin"]
+  end
+
   it "returns root path" do
     response = app.get("/")
 
